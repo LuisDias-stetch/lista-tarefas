@@ -2,7 +2,7 @@ const campoTarefa = document.getElementById('tarefa');
 const botaoAdicionar = document.getElementById('adicionar');
 const lista = document.getElementById('lista');
 
-botaoAdicionar.addEventListener('click', () => {
+function adicionarTarefa() {
     const texto = campoTarefa.value.trim();
 
     if (texto === '') {
@@ -31,4 +31,12 @@ botaoAdicionar.addEventListener('click', () => {
     lista.appendChild(item);
 
     campoTarefa.value = '';
+}
+
+botaoAdicionar.addEventListener('click', adicionarTarefa);
+
+campoTarefa.addEventListener('keydown', (evento) => {
+    if (evento.key === 'Enter') {
+        adicionarTarefa();
+    }
 });

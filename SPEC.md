@@ -156,3 +156,21 @@ quando o usuário clicar em "Excluir",
 
 então ela deve desaparecer da lista.
 
+\### Adicionar com Enter
+
+
+
+Dado que o usuário está na página,
+
+
+
+quando digitar "Estudar Python"
+
+
+
+e pressionar Enter,
+
+
+
+então "Estudar Python" deve aparecer na lista.
+

@@ -46,3 +46,11 @@ test('usuário consegue excluir uma tarefa', async ({ page }) => {
 
   await expect(tarefa).not.toBeVisible();
 });
+test('usuário consegue adicionar uma tarefa pressionando Enter', async ({ page }) => {
+  await page.goto('http://localhost:3000');
+
+  await page.getByPlaceholder('Digite uma tarefa').fill('Estudar Python');
+  await page.getByPlaceholder('Digite uma tarefa').press('Enter');
+
+  await expect(page.getByText('Estudar Python')).toBeVisible();
+});
