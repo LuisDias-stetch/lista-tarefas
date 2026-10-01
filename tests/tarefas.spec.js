@@ -54,3 +54,21 @@ test('usuário consegue adicionar uma tarefa pressionando Enter', async ({ page 
 
   await expect(page.getByText('Estudar Python')).toBeVisible();
 });
+
+test('página possui o título correto', async ({ page }) => {
+  await page.goto('http://localhost:3000');
+
+  await expect(page.getByRole('heading', { name: 'Lista de Tarefas' })).toBeVisible();
+});
+
+test('página possui campo para digitar tarefa', async ({ page }) => {
+  await page.goto('http://localhost:3000');
+
+  await expect(page.getByPlaceholder('Digite uma tarefa')).toBeVisible();
+});
+
+test('página possui botão Adicionar', async ({ page }) => {
+  await page.goto('http://localhost:3000');
+
+  await expect(page.getByRole('button', { name: 'Adicionar' })).toBeVisible();
+});
