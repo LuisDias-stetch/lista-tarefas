@@ -46,6 +46,7 @@ test('usuário consegue excluir uma tarefa', async ({ page }) => {
 
   await expect(tarefa).not.toBeVisible();
 });
+
 test('usuário consegue adicionar uma tarefa pressionando Enter', async ({ page }) => {
   await page.goto('http://localhost:3000');
 
@@ -71,4 +72,10 @@ test('página possui botão Adicionar', async ({ page }) => {
   await page.goto('http://localhost:3000');
 
   await expect(page.getByRole('button', { name: 'Adicionar' })).toBeVisible();
+});
+
+test('página possui lista de tarefas', async ({ page }) => {
+  await page.goto('http://localhost:3000');
+
+  await expect(page.locator('#lista')).toHaveCount(1);
 });
