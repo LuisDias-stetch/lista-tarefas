@@ -79,3 +79,14 @@ test('página possui lista de tarefas', async ({ page }) => {
 
   await expect(page.locator('#lista')).toHaveCount(1);
 });
+
+test('cada tarefa possui botão Excluir', async ({ page }) => {
+  await page.goto('http://localhost:3000');
+
+  await page.getByPlaceholder('Digite uma tarefa').fill('Estudar Java');
+  await page.getByRole('button', { name: 'Adicionar' }).click();
+
+  const tarefa = page.locator('li').filter({ hasText: 'Estudar Java' });
+
+  await expect(tarefa.getByRole('button', { name: 'Excluir' })).toBeVisible();
+});
