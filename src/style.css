@@ -1,0 +1,354 @@
+
+/* ===== Tema e cores ===== */
+:root {
+    color-scheme: light;
+    --fundo: #f5f7fc;
+    --superficie: #ffffff;
+    --texto: #20243a;
+    --texto-secundario: #737b91;
+    --borda: #e5e9f2;
+    --campo: #f8f9fd;
+    --destaque: #6558f5;
+    --destaque-hover: #5144df;
+    --concluida: #16a879;
+    --sombra: 0 12px 35px rgba(36, 42, 80, 0.08);
+}
+
+body[data-theme="dark"] {
+    color-scheme: dark;
+    --fundo: #11131c;
+    --superficie: #1b1e2b;
+    --texto: #f1f3ff;
+    --texto-secundario: #a2a8bd;
+    --borda: #303448;
+    --campo: #151824;
+    --destaque: #9187ff;
+    --destaque-hover: #a79fff;
+    --concluida: #43d6a2;
+    --sombra: 0 12px 35px rgba(0, 0, 0, 0.2);
+}
+
+/* ===== Base ===== */
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    padding: 48px 20px;
+    background: var(--fundo);
+    color: var(--texto);
+    font-family: "Segoe UI", Arial, sans-serif;
+    transition: background 0.25s ease, color 0.25s ease;
+}
+
+button,
+input {
+    font: inherit;
+}
+
+button {
+    cursor: pointer;
+}
+
+button:focus-visible,
+input:focus-visible,
+.tarefa-texto:focus-visible {
+    outline: 3px solid var(--destaque);
+    outline-offset: 3px;
+}
+
+/* ===== Layout principal ===== */
+.container {
+    width: 100%;
+    max-width: 680px;
+    margin: 0 auto;
+}
+
+.topo {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 32px;
+}
+
+.marca {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.marca-icone {
+    display: grid;
+    place-items: center;
+    width: 46px;
+    height: 46px;
+    border-radius: 15px;
+    background: var(--destaque);
+    color: white;
+    font-size: 23px;
+    font-weight: 800;
+    box-shadow: 0 7px 18px rgba(101, 88, 245, 0.25);
+}
+
+.marca h1 {
+    margin: 0;
+    font-size: 25px;
+    letter-spacing: -0.8px;
+}
+
+.subtitulo {
+    margin: 5px 0 0;
+    color: var(--texto-secundario);
+    font-size: 14px;
+}
+
+.botao-tema {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 42px;
+    padding: 10px 14px;
+    border: 1px solid var(--borda);
+    border-radius: 12px;
+    background: var(--superficie);
+    color: var(--texto);
+    transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.botao-tema:hover {
+    transform: translateY(-1px);
+    border-color: var(--destaque);
+}
+
+/* ===== Cartão ===== */
+.painel {
+    padding: 28px;
+    border: 1px solid var(--borda);
+    border-radius: 22px;
+    background: var(--superficie);
+    box-shadow: var(--sombra);
+}
+
+.painel h2 {
+    margin: 0 0 8px;
+    font-size: 21px;
+    letter-spacing: -0.4px;
+}
+
+.descricao {
+    margin: 0 0 24px;
+    color: var(--texto-secundario);
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+/* ===== Campo e botão ===== */
+.formulario {
+    display: flex;
+    gap: 10px;
+}
+
+#tarefa {
+    flex: 1;
+    min-width: 0;
+    min-height: 49px;
+    padding: 0 15px;
+    border: 1px solid var(--borda);
+    border-radius: 12px;
+    background: var(--campo);
+    color: var(--texto);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+#tarefa::placeholder {
+    color: var(--texto-secundario);
+}
+
+#tarefa:focus {
+    border-color: var(--destaque);
+    box-shadow: 0 0 0 4px rgba(101, 88, 245, 0.12);
+    outline: none;
+}
+
+#adicionar {
+    min-height: 49px;
+    padding: 0 19px;
+    border: 0;
+    border-radius: 12px;
+    background: var(--destaque);
+    color: white;
+    font-weight: 700;
+    transition: transform 0.2s ease, background 0.2s ease;
+}
+
+#adicionar:hover {
+    background: var(--destaque-hover);
+    transform: translateY(-1px);
+}
+
+/* ===== Contagem ===== */
+.resumo {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-top: 30px;
+    padding-bottom: 13px;
+    border-bottom: 1px solid var(--borda);
+}
+
+.resumo h3 {
+    margin: 0;
+    font-size: 15px;
+}
+
+.contador {
+    padding: 5px 10px;
+    border-radius: 999px;
+    background: rgba(101, 88, 245, 0.12);
+    color: var(--destaque);
+    font-size: 12px;
+    font-weight: 700;
+}
+
+/* ===== Lista de tarefas ===== */
+#lista {
+    display: grid;
+    gap: 10px;
+    margin: 16px 0 0;
+    padding: 0;
+    list-style: none;
+}
+
+#lista li {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 0;
+    padding: 14px;
+    border: 1px solid var(--borda);
+    border-radius: 13px;
+    background: var(--superficie);
+    animation: aparecer 0.2s ease both;
+}
+
+.tarefa-texto {
+    flex: 1;
+    min-width: 0;
+    overflow-wrap: anywhere;
+    cursor: pointer;
+    line-height: 1.5;
+}
+
+#lista li .tarefa-texto[style*="line-through"] {
+    color: var(--texto-secundario);
+}
+
+.botao-excluir {
+    flex-shrink: 0;
+    padding: 8px 10px;
+    border: 1px solid var(--borda);
+    border-radius: 9px;
+    background: transparent;
+    color: var(--texto-secundario);
+    font-size: 12px;
+    transition: background 0.2s ease, color 0.2s ease;
+}
+
+.botao-excluir:hover {
+    border-color: #ff647c;
+    background: rgba(255, 100, 124, 0.1);
+    color: #ff647c;
+}
+
+.vazio {
+    padding: 28px 12px;
+    color: var(--texto-secundario);
+    text-align: center;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.rodape {
+    margin-top: 20px;
+    color: var(--texto-secundario);
+    font-size: 12px;
+    text-align: center;
+}
+
+@keyframes aparecer {
+    from {
+        opacity: 0;
+        transform: translateY(5px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ===== Ajustes para celulares ===== */
+@media (max-width: 520px) {
+    body {
+        padding: 26px 14px;
+    }
+
+    .topo {
+        align-items: flex-start;
+        gap: 10px;
+        margin-bottom: 22px;
+    }
+
+    .marca {
+        gap: 9px;
+    }
+
+    .marca-icone {
+        width: 40px;
+        height: 40px;
+        border-radius: 12px;
+    }
+
+    .marca h1 {
+        font-size: 20px;
+    }
+
+    .subtitulo {
+        font-size: 12px;
+    }
+
+    .botao-tema {
+        padding: 9px 10px;
+        font-size: 12px;
+    }
+
+    .painel {
+        padding: 20px 16px;
+        border-radius: 18px;
+    }
+
+    .formulario {
+        flex-direction: column;
+    }
+
+    #adicionar {
+        width: 100%;
+    }
+
+    #lista li {
+        padding: 12px 10px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+    }
+}

@@ -1,25 +1,72 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#f5f7fc">
     <title>Lista de Tarefas</title>
+    <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body data-theme="light">
 
-    <h1>Lista de Tarefas</h1>
+    <main class="container">
+        <header class="topo">
+            <div class="marca">
+                <div class="marca-icone" aria-hidden="true">✓</div>
+                <div>
+                    <h1>Lista de Tarefas</h1>
+                    <p class="subtitulo">Organize suas ideias. Um passo de cada vez.</p>
+                </div>
+            </div>
 
-    <input
-        type="text"
-        id="tarefa"
-        placeholder="Digite uma tarefa"
-    >
+            <button
+                type="button"
+                id="alternar-tema"
+                class="botao-tema"
+                aria-label="Ativar modo escuro"
+                aria-pressed="false"
+            >
+                <span id="icone-tema" aria-hidden="true">☾</span>
+                <span id="texto-tema">Modo escuro</span>
+            </button>
+        </header>
 
-    <button id="adicionar">Adicionar</button>
+        <section class="painel" aria-labelledby="titulo-painel">
+            <h2 id="titulo-painel">Vamos começar?</h2>
+            <p class="descricao">
+                Adicione suas tarefas e acompanhe seu progresso ao longo do dia.
+            </p>
 
-    <ul id="lista"></ul>
+            <form id="formulario-tarefa" class="formulario">
+                <input
+                    type="text"
+                    id="tarefa"
+                    placeholder="Digite uma tarefa"
+                    aria-label="Digite uma tarefa"
+                    autocomplete="off"
+                >
+                <button type="submit" id="adicionar">Adicionar</button>
+            </form>
+
+            <div class="resumo">
+                <h3>Suas tarefas</h3>
+                <span id="contador" class="contador">0 tarefas</span>
+            </div>
+
+            <p id="estado-vazio" class="vazio">
+                ✨ Nenhuma tarefa por aqui ainda.<br>
+                Que tal adicionar a primeira?
+            </p>
+
+            <ul id="lista" aria-label="Lista de tarefas"></ul>
+        </section>
+
+        <footer class="rodape">
+            Pequenos passos também levam longe.
+        </footer>
+    </main>
 
     <script src="script.js"></script>
-
 </body>
 </html>
