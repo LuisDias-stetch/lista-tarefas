@@ -352,3 +352,62 @@ input:focus-visible,
         transition-duration: 0.01ms !important;
     }
 }
+
+
+/* ===== Filtros de tarefas ===== */
+.filtros {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 20px;
+    padding: 5px;
+    border: 1px solid var(--borda);
+    border-radius: 13px;
+    background: var(--campo);
+}
+
+.filtro {
+    flex: 1;
+    min-height: 38px;
+    padding: 8px 12px;
+    border: 1px solid transparent;
+    border-radius: 9px;
+    background: transparent;
+    color: var(--texto-secundario);
+    font-size: 13px;
+    font-weight: 600;
+    transition:
+        color 0.2s ease,
+        background 0.2s ease,
+        border-color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.filtro:hover {
+    color: var(--texto);
+    transform: translateY(-1px);
+}
+
+.filtro.ativo {
+    border-color: var(--borda);
+    background: var(--superficie);
+    color: var(--destaque);
+    box-shadow: 0 2px 7px rgba(36, 42, 80, 0.06);
+}
+
+.filtro:focus-visible {
+    outline: 3px solid var(--destaque);
+    outline-offset: 2px;
+}
+
+@media (max-width: 380px) {
+    .filtros {
+        gap: 4px;
+        padding: 4px;
+    }
+
+    .filtro {
+        padding: 8px 5px;
+        font-size: 12px;
+    }
+}

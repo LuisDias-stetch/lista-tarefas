@@ -1,92 +1,148 @@
+
 const { test, expect } = require('@playwright/test');
 
 test('usuário consegue adicionar uma tarefa', async ({ page }) => {
-  await page.goto('http://localhost:3000');
+    await page.goto('/');
 
-  await page.getByPlaceholder('Digite uma tarefa').fill('Estudar Java');
-  await page.getByRole('button', { name: 'Adicionar' }).click();
+    await page.fill('#tarefa', 'Estudar Java');
+    await page.click('#adicionar');
 
-  await expect(page.getByText('Estudar Java')).toBeVisible();
+    await expect(page.locator('#lista li')).toContainText('Estudar Java');
 });
 
 test('usuário não consegue adicionar uma tarefa vazia', async ({ page }) => {
-  await page.goto('http://localhost:3000');
+    await page.goto('/');
 
-  await page.getByRole('button', { name: 'Adicionar' }).click();
+    await page.fill('#tarefa', '   ');
+    await page.click('#adicionar');
 
-  await expect(page.locator('#lista li')).toHaveCount(0);
+    await expect(page.locator('#lista li')).toHaveCount(0);
 });
 
 test('usuário consegue concluir uma tarefa', async ({ page }) => {
-  await page.goto('http://localhost:3000');
+    await page.goto('/');
 
-  await page.getByPlaceholder('Digite uma tarefa').fill('Estudar Java');
-  await page.getByRole('button', { name: 'Adicionar' }).click();
+    await page.fill('#tarefa', 'Estudar Java');
+    await page.click('#adicionar');
 
-  const tarefa = page.getByText('Estudar Java');
+    const tarefa = page.locator('.tarefa-texto');
 
-  await expect(tarefa).toBeVisible();
+    await tarefa.click();
 
-  await tarefa.click();
-
-  await expect(tarefa).toHaveCSS('text-decoration-line', 'line-through');
+    await expect(tarefa).toHaveCSS('text-decoration-line', 'line-through');
 });
 
 test('usuário consegue excluir uma tarefa', async ({ page }) => {
-  await page.goto('http://localhost:3000');
+    await page.goto('/');
 
-  await page.getByPlaceholder('Digite uma tarefa').fill('Estudar Java');
-  await page.getByRole('button', { name: 'Adicionar' }).click();
+    await page.fill('#tarefa', 'Estudar Java');
+    await page.click('#adicionar');
 
-  const tarefa = page.locator('li').filter({ hasText: 'Estudar Java' });
+    await page.getByRole('button', { name: 'Excluir Estudar Java' }).click();
 
-  await expect(tarefa).toBeVisible();
-
-  await tarefa.getByRole('button', { name: 'Excluir' }).click();
-
-  await expect(tarefa).not.toBeVisible();
+    await expect(page.locator('#lista li')).toHaveCount(0);
 });
 
 test('usuário consegue adicionar uma tarefa pressionando Enter', async ({ page }) => {
-  await page.goto('http://localhost:3000');
+    await page.goto('/');
 
-  await page.getByPlaceholder('Digite uma tarefa').fill('Estudar Python');
-  await page.getByPlaceholder('Digite uma tarefa').press('Enter');
+    await page.fill('#tarefa', 'Estudar Java');
+    await page.locator('#tarefa').press('Enter');
 
-  await expect(page.getByText('Estudar Python')).toBeVisible();
+    await expect(page.locator('#lista li')).toContainText('Estudar Java');
 });
 
 test('página possui o título correto', async ({ page }) => {
-  await page.goto('http://localhost:3000');
+    await page.goto('/');
 
-  await expect(page.getByRole('heading', { name: 'Lista de Tarefas' })).toBeVisible();
+    await expect(page).toHaveTitle('Lista de Tarefas');
 });
 
 test('página possui campo para digitar tarefa', async ({ page }) => {
-  await page.goto('http://localhost:3000');
+    await page.goto('/');
 
-  await expect(page.getByPlaceholder('Digite uma tarefa')).toBeVisible();
+    await expect(page.locator('#tarefa')).toBeVisible();
 });
 
 test('página possui botão Adicionar', async ({ page }) => {
-  await page.goto('http://localhost:3000');
+    await page.goto('/');
 
-  await expect(page.getByRole('button', { name: 'Adicionar' })).toBeVisible();
+    await expect(page.locator('#adicionar')).toBeVisible();
 });
 
 test('página possui lista de tarefas', async ({ page }) => {
-  await page.goto('http://localhost:3000');
+    await page.goto('/');
 
-  await expect(page.locator('#lista')).toHaveCount(1);
+    await expect(page.locator('#lista')).toHaveCount(1);
 });
 
 test('cada tarefa possui botão Excluir', async ({ page }) => {
-  await page.goto('http://localhost:3000');
+    await page.goto('/');
 
-  await page.getByPlaceholder('Digite uma tarefa').fill('Estudar Java');
-  await page.getByRole('button', { name: 'Adicionar' }).click();
+    await page.fill('#tarefa', 'Estudar Java');
+    await page.click('#adicionar');
 
-  const tarefa = page.locator('li').filter({ hasText: 'Estudar Java' });
+    await expect(
+        page.getByRole('button', { name: 'Excluir Estudar Java' })
+    ).toBeVisible();
+});
 
-  await expect(tarefa.getByRole('button', { name: 'Excluir' })).toBeVisible();
+test('filtro Todas exibe tarefas pendentes e concluídas', async ({ page }) => {
+    await page.goto('/');
+
+    await page.fill('#tarefa', 'Tarefa pendente');
+    await page.click('#adicionar');
+
+    await page.fill('#tarefa', 'Tarefa concluída');
+    await page.click('#adicionar');
+
+    await page.locator('.tarefa-texto')
+        .filter({ hasText: 'Tarefa concluída' })
+        .click();
+
+    await page.locator('[data-filtro="todas"]').click();
+
+    await expect(page.locator('#lista li')).toHaveCount(2);
+    await expect(page.locator('#lista')).toContainText('Tarefa pendente');
+    await expect(page.locator('#lista')).toContainText('Tarefa concluída');
+});
+
+test('filtro Pendentes exibe apenas tarefas pendentes', async ({ page }) => {
+    await page.goto('/');
+
+    await page.fill('#tarefa', 'Tarefa pendente');
+    await page.click('#adicionar');
+
+    await page.fill('#tarefa', 'Tarefa concluída');
+    await page.click('#adicionar');
+
+    await page.locator('.tarefa-texto')
+        .filter({ hasText: 'Tarefa concluída' })
+        .click();
+
+    await page.locator('[data-filtro="pendentes"]').click();
+
+    await expect(page.locator('#lista li')).toHaveCount(1);
+    await expect(page.locator('#lista')).toContainText('Tarefa pendente');
+    await expect(page.locator('#lista')).not.toContainText('Tarefa concluída');
+});
+
+test('filtro Concluídas exibe apenas tarefas concluídas', async ({ page }) => {
+    await page.goto('/');
+
+    await page.fill('#tarefa', 'Tarefa pendente');
+    await page.click('#adicionar');
+
+    await page.fill('#tarefa', 'Tarefa concluída');
+    await page.click('#adicionar');
+
+    await page.locator('.tarefa-texto')
+        .filter({ hasText: 'Tarefa concluída' })
+        .click();
+
+    await page.locator('[data-filtro="concluidas"]').click();
+
+    await expect(page.locator('#lista li')).toHaveCount(1);
+    await expect(page.locator('#lista')).toContainText('Tarefa concluída');
+    await expect(page.locator('#lista')).not.toContainText('Tarefa pendente');
 });

@@ -54,6 +54,27 @@
                 <span id="contador" class="contador">0 tarefas</span>
             </div>
 
+            <nav class="filtros" aria-label="Filtrar tarefas">
+                <button
+                    type="button"
+                    class="filtro ativo"
+                    data-filtro="todas"
+                    aria-pressed="true"
+                >Todas</button>
+                <button
+                    type="button"
+                    class="filtro"
+                    data-filtro="pendentes"
+                    aria-pressed="false"
+                >Pendentes</button>
+                <button
+                    type="button"
+                    class="filtro"
+                    data-filtro="concluidas"
+                    aria-pressed="false"
+                >Concluídas</button>
+            </nav>
+
             <p id="estado-vazio" class="vazio">
                 ✨ Nenhuma tarefa por aqui ainda.<br>
                 Que tal adicionar a primeira?
