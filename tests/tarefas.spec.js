@@ -205,3 +205,17 @@ test('tarefa excluída não reaparece após atualizar a página', async ({ page 
 
     await expect(page.locator('#lista li')).toHaveCount(0);
 });
+
+test('tema selecionado continua salvo após atualizar a página', async ({ page }) => {
+    await page.goto('/');
+
+    await page.locator('#alternar-tema').click();
+
+    await expect(page.locator('body')).toHaveAttribute('data-theme', 'dark');
+    await expect(page.locator('#texto-tema')).toHaveText('Modo claro');
+
+    await page.reload();
+
+    await expect(page.locator('body')).toHaveAttribute('data-theme', 'dark');
+    await expect(page.locator('#texto-tema')).toHaveText('Modo claro');
+});
