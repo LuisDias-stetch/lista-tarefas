@@ -12,9 +12,14 @@ const botoesFiltro = document.querySelectorAll('[data-filtro]');
 
 const chaveTema = 'tema';
 const chaveTarefas = 'lista-tarefas';
+const chaveFiltro = 'filtro-tarefas';
 
 let tarefas = carregarTarefas();
-let filtroAtual = 'todas';
+let filtroAtual = localStorage.getItem(chaveFiltro) || 'todas';
+
+if (!['todas', 'pendentes', 'concluidas'].includes(filtroAtual)) {
+    filtroAtual = 'todas';
+}
 
 function carregarTarefas() {
     try {
@@ -166,6 +171,7 @@ function renderizarTarefas() {
 botoesFiltro.forEach((botao) => {
     botao.addEventListener('click', () => {
         filtroAtual = botao.dataset.filtro;
+        localStorage.setItem(chaveFiltro, filtroAtual);
 
         botoesFiltro.forEach((outroBotao) => {
             const ativo = outroBotao === botao;
@@ -200,6 +206,12 @@ function adicionarTarefa() {
 formulario.addEventListener('submit', (evento) => {
     evento.preventDefault();
     adicionarTarefa();
+});
+
+botoesFiltro.forEach((botao) => {
+    const ativo = botao.dataset.filtro === filtroAtual;
+    botao.classList.toggle('ativo', ativo);
+    botao.setAttribute('aria-pressed', String(ativo));
 });
 
 renderizarTarefas();

@@ -219,3 +219,28 @@ test('tema selecionado continua salvo após atualizar a página', async ({ page 
     await expect(page.locator('body')).toHaveAttribute('data-theme', 'dark');
     await expect(page.locator('#texto-tema')).toHaveText('Modo claro');
 });
+
+test('filtro Pendentes continua correto após atualizar a página', async ({ page }) => {
+    await page.goto('/');
+
+    await page.fill('#tarefa', 'Tarefa pendente');
+    await page.click('#adicionar');
+
+    await page.fill('#tarefa', 'Tarefa concluída');
+    await page.click('#adicionar');
+
+    await page.locator('.tarefa-texto')
+        .filter({ hasText: 'Tarefa concluída' })
+        .click();
+
+    await page.locator('[data-filtro="pendentes"]').click();
+
+    await expect(page.locator('#lista li')).toHaveCount(1);
+    await expect(page.locator('#lista')).toContainText('Tarefa pendente');
+
+    await page.reload();
+
+    await expect(page.locator('#lista li')).toHaveCount(1);
+    await expect(page.locator('#lista')).toContainText('Tarefa pendente');
+    await expect(page.locator('#lista')).not.toContainText('Tarefa concluída');
+});
