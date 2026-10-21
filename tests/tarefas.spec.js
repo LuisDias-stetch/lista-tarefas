@@ -146,3 +146,45 @@ test('filtro Concluídas exibe apenas tarefas concluídas', async ({ page }) => 
     await expect(page.locator('#lista')).toContainText('Tarefa concluída');
     await expect(page.locator('#lista')).not.toContainText('Tarefa pendente');
 });
+
+test('tarefa continua salva após atualizar a página', async ({ page }) => {
+    await page.goto('/');
+
+    await page.fill('#tarefa', 'Estudar persistência');
+    await page.click('#adicionar');
+
+    await expect(page.locator('#lista'))
+        .toContainText('Estudar persistência');
+
+    await page.reload();
+
+    await expect(page.locator('#lista'))
+        .toContainText('Estudar persistência');
+});
+
+test('estado de conclusão permanece salvo após atualizar a página', async ({ page }) => {
+    await page.goto('/');
+
+    await page.fill('#tarefa', 'Tarefa concluída');
+    await page.click('#adicionar');
+
+    const tarefa = page.locator('.tarefa-texto')
+        .filter({ hasText: 'Tarefa concluída' });
+
+    await tarefa.click();
+
+    await expect(tarefa).toHaveCSS(
+        'text-decoration-line',
+        'line-through'
+    );
+
+    await page.reload();
+
+    const tarefaRecarregada = page.locator('.tarefa-texto')
+        .filter({ hasText: 'Tarefa concluída' });
+
+    await expect(tarefaRecarregada).toHaveCSS(
+        'text-decoration-line',
+        'line-through'
+    );
+});
