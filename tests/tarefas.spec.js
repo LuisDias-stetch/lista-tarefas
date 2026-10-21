@@ -188,3 +188,20 @@ test('estado de conclusão permanece salvo após atualizar a página', async ({ 
         'line-through'
     );
 });
+
+test('tarefa excluída não reaparece após atualizar a página', async ({ page }) => {
+    await page.goto('/');
+
+    await page.fill('#tarefa', 'Tarefa para excluir');
+    await page.click('#adicionar');
+
+    await page.getByRole('button', {
+        name: 'Excluir Tarefa para excluir'
+    }).click();
+
+    await expect(page.locator('#lista li')).toHaveCount(0);
+
+    await page.reload();
+
+    await expect(page.locator('#lista li')).toHaveCount(0);
+});
