@@ -244,3 +244,22 @@ test('filtro Pendentes continua correto após atualizar a página', async ({ pag
     await expect(page.locator('#lista')).toContainText('Tarefa pendente');
     await expect(page.locator('#lista')).not.toContainText('Tarefa concluída');
 });
+test('filtro Pendentes continua selecionado após atualizar a página', async ({ page }) => {
+    await page.goto('/');
+
+    await page.fill('#tarefa', 'Tarefa pendente');
+    await page.click('#adicionar');
+
+    await page.click('[data-filtro="pendentes"]');
+
+    await expect(page.locator('[data-filtro="pendentes"]'))
+        .toHaveClass(/ativo/);
+
+    await page.reload();
+
+    await expect(page.locator('[data-filtro="pendentes"]'))
+        .toHaveClass(/ativo/);
+
+    await expect(page.locator('[data-filtro="pendentes"]'))
+        .toHaveAttribute('aria-pressed', 'true');
+});
