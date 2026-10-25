@@ -263,3 +263,44 @@ test('filtro Pendentes continua selecionado após atualizar a página', async ({
     await expect(page.locator('[data-filtro="pendentes"]'))
         .toHaveAttribute('aria-pressed', 'true');
 });
+
+test('filtro Todas continua selecionado após atualizar a página', async ({ page }) => {
+    await page.goto('/');
+
+    await page.click('[data-filtro="todas"]');
+
+    await expect(page.locator('[data-filtro="todas"]'))
+        .toHaveClass(/ativo/);
+
+    await page.reload();
+
+    await expect(page.locator('[data-filtro="todas"]'))
+        .toHaveClass(/ativo/);
+
+    await expect(page.locator('[data-filtro="todas"]'))
+        .toHaveAttribute('aria-pressed', 'true');
+});
+
+test('filtro Concluídas continua selecionado após atualizar a página', async ({ page }) => {
+    await page.goto('/');
+
+    await page.fill('#tarefa', 'Tarefa concluída');
+    await page.click('#adicionar');
+
+    await page.locator('.tarefa-texto')
+        .filter({ hasText: 'Tarefa concluída' })
+        .click();
+
+    await page.click('[data-filtro="concluidas"]');
+
+    await expect(page.locator('[data-filtro="concluidas"]'))
+        .toHaveClass(/ativo/);
+
+    await page.reload();
+
+    await expect(page.locator('[data-filtro="concluidas"]'))
+        .toHaveClass(/ativo/);
+
+    await expect(page.locator('[data-filtro="concluidas"]'))
+        .toHaveAttribute('aria-pressed', 'true');
+});
